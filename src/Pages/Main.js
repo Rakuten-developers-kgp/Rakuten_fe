@@ -4,63 +4,64 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 
 // import { Link } from 'react-router-dom';
-
+const getDatas = ["nitish", "homesh", "mohan", "anil", "lodu", "ankur"]
 
 function Main(props) {
 
-    const [getDatas, setGetDatas] = useState([]);
+    const [data, setData] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
+    const [err, setErr] = useState('');
 
-    useEffect(() => {
-        async function fetchDatas() {
-            const URL = 'https://7a20-49-204-77-246.in.ngrok.io/get_data';
-            try {
-                const res = await axios.get(URL);
-                console.log(res.data);
-                setGetDatas(res.data);
-            } catch (error) {
-                console.log(error);
-            }
+    const handleClick = async () => {
+        setIsLoading(true);
+        try {
+            const { data } = await axios.get('https://audubon-society-api.herokuapp.com/birds', {
+            });
+            console.log(data);
+            setData(data);
+        } catch (err) {
+            setErr(err.message);
+        } finally {
+            setIsLoading(false);
         }
-        fetchDatas();
-    }, []);
-
-    if (!getDatas.length) return <h3>Loading...</h3>;
-
-    // const getData = get('https://7a20-49-204-77-246.in.ngrok.io/get_data')
-
-
+    };
 
     return (
         <div className='main'>
             <div className='col1'>
-                <button class="button">
-                    Display names
-                </button>
-                <textarea className='log-view' id="w3review" name="w3review" rows="10" cols="10"></textarea>
 
                 <div>
-                    {getDatas.map((dname) => (
+                    {err && <h2>{err}</h2>}
+
+                    <button class="button" onClick={handleClick}>Fetch data</button>
+
+                    {isLoading && <h2>Loading...</h2>}
+
+                    {data.map(person => {
+                        return (
+                            <div key={person.name}>
+
+                                {/* <div className='get-div' >
+                    {getDatas.map((name, key) => (
 
                         <div>
-
-                            <p>{dname}</p>
-
-
+                            <table className='get-table' >
+                                <tr>
+                                    <td className='row-get'>{key + 1}</td>
+                                    <td className='row-get2'>{name}</td>
+                                </tr>
+                            </table>
                         </div>
-
-                    ))}
-                </div>
-
-                {/* <div>
-                    {getDatas.map((bird) => (
-                        <div>
-                            <img src={bird.image} alt={bird.image}></img>
-                            <p>{bird.name}</p>
-                        </div>
-
 
                     ))}
                 </div> */}
+
+                                <p>{person.name}</p>
+                            </div>
+
+                        );
+                    })}
+                </div>
 
 
             </div>
