@@ -1,15 +1,68 @@
 import React from 'react';
 import '../styles/main.css';
+import { useState, useEffect } from "react";
+import axios from "axios";
+
 // import { Link } from 'react-router-dom';
 
-function Main() {
+
+function Main(props) {
+
+    const [getDatas, setGetDatas] = useState([]);
+
+    useEffect(() => {
+        async function fetchDatas() {
+            const URL = 'https://7a20-49-204-77-246.in.ngrok.io/get_data';
+            try {
+                const res = await axios.get(URL);
+                console.log(res.data);
+                setGetDatas(res.data);
+            } catch (error) {
+                console.log(error);
+            }
+        }
+        fetchDatas();
+    }, []);
+
+    if (!getDatas.length) return <h3>Loading...</h3>;
+
+    // const getData = get('https://7a20-49-204-77-246.in.ngrok.io/get_data')
+
+
+
     return (
         <div className='main'>
             <div className='col1'>
                 <button class="button">
                     Display names
                 </button>
-                <textarea className='log-view' id="w3review" name="w3review" rows="30" cols="50"></textarea>
+                <textarea className='log-view' id="w3review" name="w3review" rows="10" cols="10"></textarea>
+
+                <div>
+                    {getDatas.map((dname) => (
+
+                        <div>
+
+                            <p>{dname}</p>
+
+
+                        </div>
+
+                    ))}
+                </div>
+
+                {/* <div>
+                    {getDatas.map((bird) => (
+                        <div>
+                            <img src={bird.image} alt={bird.image}></img>
+                            <p>{bird.name}</p>
+                        </div>
+
+
+                    ))}
+                </div> */}
+
+
             </div>
             <div className='col2'>
                 <label for="lname">Enter the name to add:</label>
