@@ -29,7 +29,7 @@ function Delete() {
 
 
             fetch(
-                "http://localhost:8000/delete_name",
+                "http://localhost:8000/delete_data",
                 {
                     method: "DELETE",
                     Headers: {
