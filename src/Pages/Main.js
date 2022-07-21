@@ -15,7 +15,7 @@ function Main(props) {
     const handleClick = async () => {
         setIsLoading(true);
         try {
-            const { data } = await axios.get('https://audubon-society-api.herokuapp.com/birds', {
+            const { data } = await axios.get('http://localhost:8000/get_data', {
             });
             console.log(data);
             setData(data);
@@ -25,6 +25,44 @@ function Main(props) {
             setIsLoading(false);
         }
     };
+
+
+    const [userData, setUserData] = useState({
+        name: "",
+    });
+
+    let name, value;
+    const postUserData = (event) => {
+        name = event.target.name;
+        value = event.target.value;
+
+        setUserData({ ...userData, [name]: value });
+    };
+
+
+    // connect with firebase
+
+    const submitData = async (event) => {
+        event.preventDefault();
+        const { name } = userData;
+
+        if (name) {
+
+
+fetch(
+                "http://localhost:8000/input_name",
+                {
+                    method: "POST",
+                    Headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        name: name,
+                    }),
+                }
+            );
+        }
+    }
 
     return (
         <div className='main'>
@@ -37,26 +75,18 @@ function Main(props) {
 
                     {isLoading && <h2>Loading...</h2>}
 
-                    {data.map(person => {
+                    {data.map((person, key) => {
                         return (
-                            <div key={person.name}>
+                            <div>
 
-                                {/* <div className='get-div' >
-                    {getDatas.map((name, key) => (
-
-                        <div>
-                            <table className='get-table' >
-                                <tr>
-                                    <td className='row-get'>{key + 1}</td>
-                                    <td className='row-get2'>{name}</td>
-                                </tr>
-                            </table>
-                        </div>
-
-                    ))}
-                </div> */}
-
-                                <p>{person.name}</p>
+                                <div>
+                                    <table className='get-table' >
+                                        <tr>
+                                            <td className='row-get'>{key + 1}</td>
+                                            <td className='row-get2'>{person}</td>
+                                        </tr>
+                                    </table>
+                                </div>
                             </div>
 
                         );
@@ -71,6 +101,35 @@ function Main(props) {
                 <input className='log-key' type="text" id="lname" placeholder='Enter here' name="lname" />
                 {/* <input className='val-key' type="text" id="lname" placeholder='Enter Value' name="lname" /> */}
                 <button class="button button2">Add name</button>
+
+
+                <form method="POST" className='form-input' onSubmit={submitData} >
+
+                    <span className='i-head' >Name:</span>
+                    <input
+                        type="name"
+                        placeholder="Name"
+                        name="name"
+                        className='i-fill'
+                        value={userData.name}
+                        onChange={postUserData}
+                    ></input>
+                    <br />
+                    <center>
+                        <button
+                            name="submit"
+                            placeholder="Submit"
+                            className="sub-btn"
+                            type='submit'
+                            value="submit"
+                        // onClick={submitData}
+                        // onClick={openModal}
+                        ><b>Submit</b></button>
+                    </center>
+
+                </form>
+
+
 
                 <br /><br /><br />
                 <br />
