@@ -27,6 +27,7 @@ function Main(props) {
     };
 
 
+
     const [userData, setUserData] = useState({
         name: "",
     });
@@ -49,7 +50,7 @@ function Main(props) {
         if (name) {
 
 
-fetch(
+            fetch(
                 "http://localhost:8000/input_name",
                 {
                     method: "POST",
@@ -63,6 +64,49 @@ fetch(
             );
         }
     }
+
+    // Delete data
+
+
+    const [userData2, setUserData2] = useState({
+        name2: "",
+    });
+
+    let name2, value2;
+    const postUserData2 = (event) => {
+        name2 = event.target.name2;
+        value2 = event.target.value2;
+
+        setUserData2({ ...userData2, [name2]: value2 });
+    };
+
+
+    // connect with firebase
+
+    const submitData2 = async (event) => {
+        event.preventDefault();
+        const { name } = userData2;
+
+        if (name) {
+
+
+            fetch(
+                "http://localhost:8000/delete_name",
+                {
+                    method: "DELETE",
+                    Headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        name: name,
+                    }),
+                }
+            );
+        }
+    }
+
+
+
 
     return (
         <div className='main'>
@@ -98,19 +142,13 @@ fetch(
             <div className='col2'>
                 <label for="lname">Enter the name to add:</label>
                 <br />
-                <input className='log-key' type="text" id="lname" placeholder='Enter here' name="lname" />
-                {/* <input className='val-key' type="text" id="lname" placeholder='Enter Value' name="lname" /> */}
-                <button class="button button2">Add name</button>
-
 
                 <form method="POST" className='form-input' onSubmit={submitData} >
-
-                    <span className='i-head' >Name:</span>
                     <input
                         type="name"
-                        placeholder="Name"
+                        placeholder="Enter here"
                         name="name"
-                        className='i-fill'
+                        className='log-key'
                         value={userData.name}
                         onChange={postUserData}
                     ></input>
@@ -118,13 +156,13 @@ fetch(
                     <center>
                         <button
                             name="submit"
-                            placeholder="Submit"
-                            className="sub-btn"
+                            placeholder="Add name"
+                            className="button button2"
                             type='submit'
                             value="submit"
                         // onClick={submitData}
                         // onClick={openModal}
-                        ><b>Submit</b></button>
+                        ><b>Add name</b></button>
                     </center>
 
                 </form>
@@ -139,9 +177,31 @@ fetch(
                 <div className='c2r2'>
                     <label for="lname">Enter the name to delete:</label>
                     <br />
-                    <input className='log-key' type="text" id="lname" placeholder='Enter here' name="lname" />
-                    {/* <input className='val-key' type="text" id="lname" placeholder='Enter Value' name="lname" /> */}
-                    <button class="button button3">Delete name</button>
+
+                    <form method="DELETE" className='form-input' onSubmit={submitData2} >
+                        <input
+                            type="name"
+                            placeholder="Enter here"
+                            name="name"
+                            className='log-key'
+                            value={userData2.name}
+                            onChange={postUserData2}
+                        ></input>
+                        <br />
+                        <center>
+                            <button
+                                name="submit"
+                                placeholder="Add name"
+                                className="button button3"
+                                type='submit'
+                                value="submit"
+                            // onClick={submitData}
+                            // onClick={openModal}
+                            ><b>Delete name</b></button>
+                        </center>
+
+                    </form>
+
                 </div>
 
 
