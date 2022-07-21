@@ -2,6 +2,7 @@ import React from 'react';
 import '../styles/main.css';
 import { useState, useEffect } from "react";
 import axios from "axios";
+import Delete from './Delete';
 
 // import { Link } from 'react-router-dom';
 const getDatas = ["nitish", "homesh", "mohan", "anil", "lodu", "ankur"]
@@ -68,42 +69,42 @@ function Main(props) {
     // Delete data
 
 
-    const [userData2, setUserData2] = useState({
-        name2: "",
-    });
+    // const [userData2, setUserData2] = useState({
+    //     name2: "",
+    // });
 
-    let name2, value2;
-    const postUserData2 = (event) => {
-        name2 = event.target.name2;
-        value2 = event.target.value2;
+    // let name2, value2;
+    // const postUserData2 = (event) => {
+    //     name2 = event.target.name2;
+    //     value2 = event.target.value2;
 
-        setUserData2({ ...userData2, [name2]: value2 });
-    };
-
-
-    // connect with firebase
-
-    const submitData2 = async (event) => {
-        event.preventDefault();
-        const { name } = userData2;
-
-        if (name) {
+    //     setUserData2({ ...userData2, [name2]: value2 });
+    // };
 
 
-            fetch(
-                "http://localhost:8000/delete_name",
-                {
-                    method: "DELETE",
-                    Headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify({
-                        name: name,
-                    }),
-                }
-            );
-        }
-    }
+    // // connect with firebase
+
+    // const submitData2 = async (event) => {
+    //     event.preventDefault();
+    //     const { name } = userData2;
+
+    //     if (name) {
+
+
+    //         fetch(
+    //             "http://localhost:8000/delete_name",
+    //             {
+    //                 method: "DELETE",
+    //                 Headers: {
+    //                     "Content-Type": "application/json",
+    //                 },
+    //                 body: JSON.stringify({
+    //                     name: name2,
+    //                 }),
+    //             }
+    //         );
+    //     }
+    // }
 
 
 
@@ -136,6 +137,7 @@ function Main(props) {
                         );
                     })}
                 </div>
+
 
 
             </div>
@@ -178,7 +180,9 @@ function Main(props) {
                     <label for="lname">Enter the name to delete:</label>
                     <br />
 
-                    <form method="DELETE" className='form-input' onSubmit={submitData2} >
+                    <Delete />
+
+                    {/* <form method="DELETE" className='form-input' onSubmit={submitData2} >
                         <input
                             type="name"
                             placeholder="Enter here"
@@ -191,7 +195,7 @@ function Main(props) {
                         <center>
                             <button
                                 name="submit"
-                                placeholder="Add name"
+                                placeholder="delete name"
                                 className="button button3"
                                 type='submit'
                                 value="submit"
@@ -200,7 +204,9 @@ function Main(props) {
                             ><b>Delete name</b></button>
                         </center>
 
-                    </form>
+                    </form> */}
+
+
 
                 </div>
 
